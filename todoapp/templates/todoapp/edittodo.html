@@ -1,0 +1,39 @@
+{% extends 'todoapp/layout.html' %}
+{% block content%}
+<hr>
+{% if error %}
+<p>{{error}}</p>
+{% endif %}
+{% if completed %}
+<div class='container'>
+	<h2>{{todo.title}}</h2>
+	<small>created on: {{todo.created}}</small>
+	{% if todo.memo %}
+	<p>- {{todo.memo}}</p>
+	{% endif %}
+	<small> Important: {% if todo.important %} YES {% else %} NO {% endif %}</small>
+	<br>
+	<small>Completed on: {{todo.datecompleted}}</small>
+	<div class='row'>
+		<form method="POST" action="{% url 'deletetodo' todo.id %}">
+			{% csrf_token %}
+			<button class="btn btn-dark" type='submit'>Delete</button>
+		</form>
+		<form method="POST" action="{% url 'readdtodo' todo.id %}">
+			{% csrf_token %}
+			<button class="btn btn-info" type='submit'>Not completed, re-add</button>
+		</form>
+	</div>
+</div>
+{% else %}
+<div class='container'>
+	<form method="POST" >
+		{% csrf_token %}
+		{{form.as_p}}
+		<small>created on: {{todo.created}}</small><br>
+		<button class="btn btn-primary" type='submit'>Save</button>
+	</form>
+	</div>
+</div>
+{% endif %}
+{% endblock content %}

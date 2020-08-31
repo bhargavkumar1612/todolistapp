@@ -1,0 +1,34 @@
+{% extends 'todoapp/layout.html'%}
+{% block content%}
+<div class="container row">
+	<form>
+	<div class = 'container'>
+		<h3>Current Tasks</h3>
+		<small>(you have {{todos.count}} task{{todos.count|pluralize}} pending)</small>
+		<ul>
+		{% for todd in todos %}
+		{%if todd.important%}
+		<li><a href="{% url 'viewtodo' todd.id %}">{{todd.title}}</a> <font color='#9400D3'>#important</font></li>
+		{% else %}
+		<li><a href="{% url 'viewtodo' todd.id %}">{{todd.title}}</a></li>
+		{% endif %}
+		{% endfor %}
+		</ul>
+	</div>
+	</form>
+
+	<form>
+	<div class = 'container'>
+		<h3>Completed </h3>
+		<small>(you completed {{completed.count}} task{{completed.count|pluralize}})</small></s>
+		<ul>
+		{% for todd in completed %}
+		<li><a href="{% url 'viewtodo' todd.id %}">{{todd.title}}</a></li>
+		{% endfor %}
+		</ul>
+	</div>
+	</form>
+</div>
+{% endblock content%}
+
+

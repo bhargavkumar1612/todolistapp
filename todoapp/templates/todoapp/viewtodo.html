@@ -1,0 +1,55 @@
+{% extends 'todoapp/layout.html' %}
+{% block content%}
+<hr>
+{% if error %}
+<p>{{error}}</p>
+{% endif %}
+{% if completed %}
+<div class='container'>
+	<h2>{{todo.title}}</h2>
+	<small>Created on: {{todo.created}}</small>
+	{% if todo.memo %}
+	<p>- {{todo.memo}}</p>
+	{% endif %}
+	<div><small> Important: {% if todo.important %} YES {% else %} NO {% endif %}</small></div>
+	<br>
+	<small>Completed on: {{todo.datecompleted}}</small>
+	<div class='row'>
+		
+		<form method="POST" action="{% url 'deletetodo' todo.id %}">
+			{% csrf_token %}
+			<button class="btn btn-dark" type='submit'>Delete</button>
+		</form>
+		<form method="POST" action="{% url 'readdtodo' todo.id %}">
+			{% csrf_token %}
+			<button class="btn btn-info" type='submit'>Not completed, re-add</button>
+		</form>
+	</div>
+</div>
+{% else %}
+<div class='container'>
+	<h2>{{todo.title}}</h2>
+	<small>created on: {{todo.created}}</small>
+	{% if todo.memo %}
+	<p>- {{todo.memo}}</p>
+	{% endif %}
+	<br>
+	<div class='row'>
+		<form method="GET" action="{%url 'edittodo' todo.id%}">
+			{% csrf_token %}
+			<button class="btn btn-primary" type='submit'>Edit</button>
+		</form>
+		
+		<form method="POST" action="{% url 'completetodo' todo.id %}">
+			{% csrf_token %}
+			<button class="btn btn-info" type='submit'>Complete</button>
+		</form>
+		<form method="POST" action="{% url 'deletetodo' todo.id %}">
+			{% csrf_token %}
+			<button class="btn btn-dark" type='submit'>Delete</button>
+		</form>
+	</div>
+</div>
+
+{% endif %}
+{% endblock content %}
